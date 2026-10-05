@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SST Assist</title>
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <div class="gemini-app">
+
+    <!-- Top Navigation Bar -->
+    <header class="app-header">
+      <div class="header-left">
+        <!-- SST Assist Vector Emblem -->
+        <div class="brand-emblem" title="SST Assist">
+          <svg class="emblem-svg" viewBox="0 0 32 32" fill="none">
+            <defs>
+              <linearGradient id="emblemGrad" x1="2" y1="2" x2="30" y2="30" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#38bdf8"/>
+                <stop offset="50%" stop-color="#818cf8"/>
+                <stop offset="100%" stop-color="#c084fc"/>
+              </linearGradient>
+            </defs>
+            <rect x="1" y="1" width="30" height="30" rx="8" fill="#0d111c" stroke="url(#emblemGrad)" stroke-width="1.3"/>
+            <path d="M20 9.5H13.5C11.5 9.5 10 11 10 13C10 15 11.5 16 13.5 16.5H18.5C20.5 17 22 18 22 20C22 22 20.5 23.5 18.5 23.5H11" stroke="url(#emblemGrad)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M23.5 5.5C23.5 7.5 25.2 9 27.5 9C25.2 9 23.5 10.5 23.5 12.5C23.5 10.5 21.8 9 19.5 9C21.8 9 23.5 7.5 23.5 5.5Z" fill="#38bdf8"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">SST Assist</span>
+        </div>
+      </div>
+
+      <!-- Problem Context Strip (Just Question Number + Assignment Title) -->
+      <div class="problem-strip" id="problemContext" title="Current Problem on Screen">
+        <span class="strip-q" id="ribbonQ">Q?</span>
+        <span class="strip-title" id="ribbonTitle">Syncing problem...</span>
+        <button id="btnSyncProblem" class="strip-sync-btn" title="Re-sync problem from active tab">
+          <svg class="sync-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="23 4 23 10 17 10"></polyline>
+            <polyline points="1 20 1 14 7 14"></polyline>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Trimester Pass Status Chip -->
+      <button id="btnPassStatus" class="pass-chip free" title="View Trimester Pass Status & Daily Quota">
+        <span class="chip-dot"></span>
+        <span class="chip-text" id="passChipText">3 Free Left</span>
+      </button>
+
+      <!-- Settings Icon -->
+      <div class="header-right">
+        <button id="btnSettingsToggle" class="icon-btn" title="Settings & Account">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Settings Drawer (Collapsible) -->
+    <section id="settingsSection" class="settings-drawer hidden">
+      <div class="settings-title-row">
+        <span>Settings & Account</span>
+        <button id="btnCloseSettings" class="close-btn">✕</button>
+      </div>
+      <div class="form-group">
+        <label for="settingsEmailInput">Student Scaler Email:</label>
+        <input type="email" id="settingsEmailInput" placeholder="name@scaler.com" spellcheck="false" autocomplete="off">
+        <small class="hint-link">Auto-detected from Scaler Academy session</small>
+      </div>
+      <div class="form-group">
+        <label for="gatewayUrlInput">Cloud Gateway URL:</label>
+        <input type="text" id="gatewayUrlInput" placeholder="https://sst-assist-gateway.workers.dev" spellcheck="false" autocomplete="off">
+        <small class="hint-link">Zero-latency Cloudflare Worker proxy</small>
+      </div>
+      <div class="form-group">
+        <label for="apiKeyInput">Custom Groq API Key (Optional BYOK):</label>
+        <input type="password" id="apiKeyInput" placeholder="Leave blank to use Cloud Gateway..." spellcheck="false" autocomplete="off">
+        <small class="hint-link">Get a personal key from <a href="https://console.groq.com/keys" target="_blank">console.groq.com</a></small>
+      </div>
+      <div class="form-group">
+        <div class="label-row">
+          <label for="modelSelect">AI Model:</label>
+          <button id="btnFetchModels" class="link-btn">Refresh Models</button>
+        </div>
+        <select id="modelSelect">
+          <option value="llama-3.3-70b-versatile" selected>Llama 3.3 70B Versatile (Recommended)</option>
+          <option value="openai/gpt-oss-20b">GPT-OSS 20B (Groq, Fast)</option>
+          <option value="openai/gpt-oss-120b">GPT-OSS 120B (Flagship)</option>
+          <option value="llama-3.1-8b-instant">Llama 3.1 8B Instant</option>
+        </select>
+      </div>
+      <button id="btnSaveSettings" class="btn-primary">Save Settings</button>
+      <div id="settingsFeedback" class="status-msg"></div>
+    </section>
+
+    <!-- 3-Tier Progressive Scaffolding Pills (Clean Gemini Chips) -->
+    <div class="scaffold-bar">
+      <button class="scaffold-pill" id="ladderStep1" data-prompt="Can you give me a subtle Level 1 Intuitive Nudge for this problem? Give me an everyday analogy or mental model, but do NOT reveal the answer or code.">
+        <span class="pill-dot blue"></span>
+        <span class="pill-text">Intuition</span>
+      </button>
+      <button class="scaffold-pill" id="ladderStep2" data-prompt="Can you give me a Level 2 Logic Blueprint? Outline the step-by-step algorithmic flow or pseudocode without writing the actual solution code.">
+        <span class="pill-dot purple"></span>
+        <span class="pill-text">Blueprint</span>
+      </button>
+      <button class="scaffold-pill" id="ladderStep3" data-prompt="Can you give me a Level 3 Bug Spotting review? Point out potential off-by-one errors, edge cases (0, negatives, bounds), or where students commonly get stuck on this problem.">
+        <span class="pill-dot amber"></span>
+        <span class="pill-text">Edge Cases</span>
+      </button>
+    </div>
+
+    <!-- Gemini-Inspired Chat Stream -->
+    <main class="chat-stream" id="chatStream">
+      <!-- Gemini Empty State Hero Screen -->
+      <div class="gemini-hero" id="geminiHero">
+        <div class="hero-spark-wrap">
+          <svg class="hero-spark" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2C12 7.5 16.5 12 22 12C16.5 12 12 16.5 12 22C12 16.5 7.5 12 2 12C7.5 12 12 7.5 12 2Z" fill="url(#heroSparkGrad)"/>
+            <defs>
+              <linearGradient id="heroSparkGrad" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#38bdf8"/>
+                <stop offset="50%" stop-color="#818cf8"/>
+                <stop offset="100%" stop-color="#c084fc"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <h1 class="hero-heading">Where should we start?</h1>
+        <p class="hero-subtext">SST Assist is synced with your problem</p>
+
+        <!-- Suggested Starter Prompts -->
+        <div class="hero-suggestions">
+          <button class="suggestion-card" data-prompt="Explain the core intuition and mental model for this problem without giving away code.">
+            <span class="suggestion-title">Explain the core concept</span>
+            <span class="suggestion-desc">Build a mental model of how to approach it</span>
+          </button>
+          <button class="suggestion-card" data-prompt="Can you walk me through the step-by-step algorithm flow or pseudocode?">
+            <span class="suggestion-title">Outline the logic blueprint</span>
+            <span class="suggestion-desc">High-level steps before writing syntax</span>
+          </button>
+          <button class="suggestion-card" data-prompt="What critical edge cases or tricky test inputs should I look out for?">
+            <span class="suggestion-title">Uncover hidden edge cases</span>
+            <span class="suggestion-desc">Avoid off-by-one errors and corner cases</span>
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Gemini Floating Input Capsule -->
+    <footer class="gemini-input-dock">
+      <div class="input-capsule">
+        <div class="capsule-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+        </div>
+        <textarea id="chatInput" placeholder="Ask SST Assist..." rows="1"></textarea>
+        <button id="btnSend" class="send-pill-btn" title="Send message (Enter)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Auxiliary Footer Actions -->
+      <div class="dock-footer">
+        <span class="shortcut-tip">Alt+A to toggle • Enter to send</span>
+        <div class="footer-links">
+          <button id="btnBailout" class="subtle-link bailout" title="Unlock full annotated solution breakdown">Full Solution Walkthrough</button>
+          <span class="sep">•</span>
+          <button id="btnClear" class="subtle-link" title="Clear chat history">Clear</button>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Trimester Pass Upgrade Modal -->
+    <div id="upgradeModal" class="modal-backdrop hidden">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div class="modal-badge">
+            <svg class="badge-spark" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="url(#modalSparkGrad)"/>
+              <defs>
+                <linearGradient id="modalSparkGrad" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#38bdf8"/>
+                  <stop offset="50%" stop-color="#818cf8"/>
+                  <stop offset="100%" stop-color="#c084fc"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <span>Trimester Pass</span>
+          </div>
+          <button id="btnCloseModal" class="close-btn" title="Close">✕</button>
+        </div>
+
+        <div class="modal-pricing-box">
+          <div class="price-title">Scaler School of Technology</div>
+          <div class="price-val-row">
+            <span class="price-currency">₹</span>
+            <span class="price-amount">149</span>
+            <span class="price-cadence">/ trimester</span>
+          </div>
+          <div class="price-sub">Just ~₹1.6/day • 100% Instant AI Tutoring</div>
+        </div>
+
+        <div class="modal-features">
+          <div class="feat-item">
+            <span class="feat-icon">⚡</span>
+            <div class="feat-text"><strong>Unlimited Queries:</strong> No 3-question daily cap. Ask questions 24/7 without interruption.</div>
+          </div>
+          <div class="feat-item">
+            <span class="feat-icon">🚀</span>
+            <div class="feat-text"><strong>Multi-Key Groq Llama 3.3 70B:</strong> Sub-second response speed with zero queueing.</div>
+          </div>
+          <div class="feat-item">
+            <span class="feat-icon">🎯</span>
+            <div class="feat-text"><strong>Assignments & Live Quizzes:</strong> Instant Socratic hints, logic blueprints, edge cases & solutions.</div>
+          </div>
+          <div class="feat-item">
+            <span class="feat-icon">🔒</span>
+            <div class="feat-text"><strong>Direct UPI Activation:</strong> Pay via GPay, PhonePe, Paytm or Card with automatic instant unlock.</div>
+          </div>
+        </div>
+
+        <div class="modal-student-info">
+          <label for="studentEmailInput">Your Scaler Email (used for auto-activation):</label>
+          <div class="input-with-action">
+            <input type="email" id="studentEmailInput" placeholder="your.name@scaler.com" spellcheck="false" autocomplete="off">
+            <button id="btnCheckStatus" class="check-status-btn" title="Verify payment status">Verify</button>
+          </div>
+          <small class="email-note">Ensure this email matches your Razorpay payment checkout.</small>
+        </div>
+
+        <div class="modal-actions">
+          <a id="btnPayRazorpay" href="https://rzp.io/l/sst-assist-pass" target="_blank" class="btn-razorpay">
+            <span class="btn-text">⚡ Unlock Trimester Pass for ₹149</span>
+          </a>
+        </div>
+
+        <div id="modalStatusMsg" class="modal-status-msg"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="modules/tutor.js"></script>
+  <script src="sidepanel.js"></script>
+</body>
+</html>

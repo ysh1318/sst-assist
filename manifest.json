@@ -19,9 +19,7 @@
     "https://checkout.razorpay.com/*",
     "https://api.razorpay.com/*"
   ],
-  "content_security_policy": {
-    "extension_pages": "script-src 'self' https://checkout.razorpay.com; object-src 'self'"
-  },
+
   "icons": {
     "16": "icons/icon16.png",
     "32": "icons/icon32.png",

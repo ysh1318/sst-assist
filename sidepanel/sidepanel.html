@@ -66,34 +66,36 @@
     <section id="settingsSection" class="settings-drawer hidden">
       <div class="settings-title-row">
         <span>Settings & Account</span>
-        <button id="btnCloseSettings" class="close-btn">✕</button>
+        <button id="btnCloseSettings" class="close-btn" title="Close">✕</button>
       </div>
-      <div class="form-group">
-        <label for="settingsEmailInput">Student Scaler Email:</label>
-        <input type="email" id="settingsEmailInput" placeholder="name@scaler.com" spellcheck="false" autocomplete="off">
-        <small class="hint-link">Auto-detected from Scaler Academy session</small>
-      </div>
-      <div class="form-group">
-        <label for="gatewayUrlInput">Cloud Gateway URL:</label>
-        <input type="text" id="gatewayUrlInput" placeholder="https://sst-assist-backend.yashawachar101.workers.dev" spellcheck="false" autocomplete="off">
-        <small class="hint-link">Zero-latency Cloudflare Worker proxy</small>
-      </div>
-      <div class="form-group">
-        <label for="apiKeyInput">Custom Groq API Key (Optional BYOK):</label>
-        <input type="password" id="apiKeyInput" placeholder="Leave blank to use Cloud Gateway..." spellcheck="false" autocomplete="off">
-        <small class="hint-link">Get a personal key from <a href="https://console.groq.com/keys" target="_blank">console.groq.com</a></small>
-      </div>
-      <div class="form-group">
-        <div class="label-row">
-          <label for="modelSelect">AI Model:</label>
-          <button id="btnFetchModels" class="link-btn">Refresh Models</button>
+      <div class="settings-fields">
+        <div class="field">
+          <label class="field-label" for="settingsEmailInput">Student Email</label>
+          <input type="email" id="settingsEmailInput" class="settings-input" placeholder="name@sst.scaler.com" spellcheck="false" autocomplete="off">
+          <small class="field-hint">Auto-detected from your Scaler Academy session</small>
         </div>
-        <select id="modelSelect">
-          <option value="llama-3.3-70b-versatile" selected>Llama 3.3 70B Versatile (Recommended)</option>
-          <option value="openai/gpt-oss-20b">GPT-OSS 20B (Groq, Fast)</option>
-          <option value="openai/gpt-oss-120b">GPT-OSS 120B (Flagship)</option>
-          <option value="llama-3.1-8b-instant">Llama 3.1 8B Instant</option>
-        </select>
+        <div class="field">
+          <label class="field-label" for="gatewayUrlInput">Cloud Gateway URL</label>
+          <input type="text" id="gatewayUrlInput" class="settings-input" placeholder="https://sst-assist-backend.yashawachar101.workers.dev" spellcheck="false" autocomplete="off">
+          <small class="field-hint">Cloudflare Worker — handles Groq routing & quota</small>
+        </div>
+        <div class="field">
+          <label class="field-label" for="apiKeyInput">Personal Groq Key <span style="color:var(--text-muted);font-weight:500">(Optional BYOK)</span></label>
+          <input type="password" id="apiKeyInput" class="settings-input" placeholder="Leave blank to use Cloud Gateway..." spellcheck="false" autocomplete="off">
+          <small class="field-hint">Get your key at <a href="https://console.groq.com/keys" target="_blank">console.groq.com</a></small>
+        </div>
+        <div class="field">
+          <label class="field-label" for="modelSelect">AI Model</label>
+          <div class="model-row">
+            <select id="modelSelect" class="settings-select">
+              <option value="llama-3.3-70b-versatile" selected>Llama 3.3 70B Versatile (Recommended)</option>
+              <option value="openai/gpt-oss-20b">GPT-OSS 20B (Fast)</option>
+              <option value="openai/gpt-oss-120b">GPT-OSS 120B (Flagship)</option>
+              <option value="llama-3.1-8b-instant">Llama 3.1 8B Instant</option>
+            </select>
+            <button id="btnFetchModels" class="link-btn">↺ Refresh</button>
+          </div>
+        </div>
       </div>
       <button id="btnSaveSettings" class="btn-primary">Save Settings</button>
       <div id="settingsFeedback" class="status-msg"></div>
@@ -236,13 +238,13 @@
             <input type="email" id="studentEmailInput" placeholder="your.name@scaler.com" spellcheck="false" autocomplete="off">
             <button id="btnCheckStatus" class="check-status-btn" title="Verify payment status">Verify</button>
           </div>
-          <small class="email-note">Ensure this email matches your Razorpay payment checkout.</small>
+          <small class="email-note">Auto-detected from your Scaler profile. Used for instant activation.</small>
         </div>
 
         <div class="modal-actions">
-          <a id="btnPayRazorpay" href="https://rzp.io/l/sst-assist-pass" target="_blank" class="btn-razorpay">
+          <button id="btnPayRazorpay" class="btn-razorpay">
             <span class="btn-text">⚡ Unlock Trimester Pass for ₹149</span>
-          </a>
+          </button>
         </div>
 
         <div id="modalStatusMsg" class="modal-status-msg"></div>

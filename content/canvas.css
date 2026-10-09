@@ -1,0 +1,232 @@
+/* content/canvas.css - SST Assist In-Editor Living Canvas & Scaler UI Overrides */
+
+/* =========================================================
+   1. LIVING CANVAS WIDGET (Docks into empty Monaco space)
+   ========================================================= */
+#sst-live-canvas {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 42px; /* Just above Scaler's test output bar */
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  background: rgba(10, 14, 24, 0.78);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  color: #f1f5f9;
+  user-select: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  max-height: 290px;
+}
+
+#sst-live-canvas:hover {
+  border-color: rgba(56, 189, 248, 0.3);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.6), 0 0 24px rgba(56, 189, 248, 0.08);
+}
+
+/* Header strip */
+.sst-canvas-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.sst-canvas-brand {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  color: #f8fafc;
+}
+
+.sst-canvas-spark {
+  width: 14px;
+  height: 14px;
+}
+
+.sst-canvas-tag {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0.12);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+}
+
+.sst-canvas-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sst-canvas-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #94a3b8;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 3px 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.15s ease;
+}
+
+.sst-canvas-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+/* Body */
+.sst-canvas-body {
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Live Health Bar (Complexity & Invariant Radar) */
+.sst-health-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sst-metric-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 8px;
+  padding: 4px 9px;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  color: #cbd5e1;
+}
+
+.sst-metric-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+}
+
+.sst-metric-dot.amber {
+  background: #f59e0b;
+  box-shadow: 0 0 8px #f59e0b;
+}
+
+.sst-metric-dot.red {
+  background: #ef4444;
+  box-shadow: 0 0 8px #ef4444;
+}
+
+.sst-metric-val {
+  font-weight: 600;
+  color: #38bdf8;
+}
+
+/* Live Wingmate Triage Note */
+.sst-triage-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #e2e8f0;
+  min-height: 48px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.sst-triage-icon {
+  font-size: 13px;
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+
+.sst-triage-text {
+  flex: 1;
+}
+
+.sst-triage-text strong {
+  color: #38bdf8;
+}
+
+/* Quick Action Chips */
+.sst-chips-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.sst-chip {
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.22);
+  color: #bae6fd;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 4px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.15s ease;
+}
+
+.sst-chip:hover {
+  background: rgba(56, 189, 248, 0.18);
+  border-color: rgba(56, 189, 248, 0.45);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.sst-chip:active {
+  transform: translateY(0);
+}
+
+/* =========================================================
+   2. SCALER UI REFINEMENT (Zen Aesthetics)
+   ========================================================= */
+/* Subtle elevation of problem description */
+.cr-p-statement, .html-content__container {
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif !important;
+  font-size: 13.5px !important;
+  line-height: 1.65 !important;
+  color: #cbd5e1 !important;
+}
+
+/* Clean up code font in Monaco */
+.monaco-editor .view-lines {
+  font-family: 'JetBrains Mono', Consolas, monospace !important;
+  font-size: 13.5px !important;
+  line-height: 1.5 !important;
+}
+
+/* Clean styling for testcase output drawer */
+.cr-test-output, #cr-bottom-dock {
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+}

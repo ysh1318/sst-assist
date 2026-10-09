@@ -57,7 +57,11 @@
       ],
       "js": [
         "content/extractor.js",
+        "content/canvas.js",
         "content/content.js"
+      ],
+      "css": [
+        "content/canvas.css"
       ],
       "run_at": "document_idle"
     }
